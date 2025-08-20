@@ -10,7 +10,7 @@ public class ProdutoDAO {
     
     public void inserir(Produto p) {
         String sql = "INSERT INTO produtos (nome, preco) VALUES (?, ?)";
-
+          
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql))
         {
@@ -36,5 +36,36 @@ public class ProdutoDAO {
         }
 
         return lista;
+    }
+
+    public void atualizar(Produto p) {
+        String sql = "UPDATE FROM produtos nome = ?, preco = ? WHERE id = ?";
+        
+        try (Connection conn = Conexao.conectar();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, p.getNome());
+            stmt.setDouble(2, p.getPreco());
+            stmt.setInt(3, p.getId());
+            stmt.executeUpdate();
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletar(Integer id) {
+        String sql = "DELETE FROM produtos WHERE id = ?";
+
+
+        try (Connection conn = Conexao.conectar();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+ 
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
