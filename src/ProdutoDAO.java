@@ -38,6 +38,22 @@ public class ProdutoDAO {
         return lista;
     }
 
+    public Produto buscarProdutoPorId(Integer id) {
+        Produto produto = new Produto();
+        String sql = "SELECT * FROM produtos WHERE id = ?";
+        try (Connection conn = Conexao.conectar();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery(sql);)
+        {
+            stmt.setInt(3, id);
+            stmt.executeQuery();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return produto;
+    }
+
     public void atualizar(Produto p) {
         String sql = "UPDATE FROM produtos nome = ?, preco = ? WHERE id = ?";
         
