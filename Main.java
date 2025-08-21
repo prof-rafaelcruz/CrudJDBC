@@ -15,6 +15,7 @@ public class Main {
             System.out.println("Escolha uma opção:\n 1 - Inserir | 2 - Listar | 3 - Atualizar | 4 - Deletar");
 
             opc = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opc) {
                 case 1:
@@ -33,6 +34,10 @@ public class Main {
                     deletar();
                     break;
 
+                case 5:
+                    System.out.println("Finalizando...");
+                    break;
+
                 default:
                     System.out.println("Opção inválida...");
                     break;
@@ -46,7 +51,7 @@ public class Main {
             System.out.println("EXCLUSÃO DE PRODUTO\n");
             System.out.println("Digite o ID do produto : ");
             int id = teclado.nextInt();
-            teclado.next();
+            teclado.nextLine();
             produtoDao.deletar(id);
             System.out.println("Produto exluido com sucesso...");
             
@@ -60,7 +65,7 @@ public class Main {
             System.out.println("ALTERAÇÃO DE PRODUTO\n");
             System.out.println("Digite o ID do produto : ");
             int id = teclado.nextInt();
-            teclado.next();
+            teclado.nextLine();
 
             Produto produtoAtualizado = produtoDao.buscarPorId(id);
             System.out.println("Produto: " + produtoAtualizado.getNome());
@@ -99,7 +104,7 @@ public class Main {
         novoProduto.setNome(teclado.nextLine());
         System.out.println("Digite o preço do produto:");
         novoProduto.setPreco(teclado.nextDouble());
-        teclado.next();
+        teclado.nextLine();
         try {
             produtoDao.inserir(novoProduto);
             System.out.println("Produto cadastrado!!!");
