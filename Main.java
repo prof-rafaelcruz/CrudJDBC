@@ -34,6 +34,7 @@ public class Main {
                     break;
 
                 default:
+                    System.out.println("Opção inválida...");
                     break;
             }
 
@@ -41,8 +42,17 @@ public class Main {
     }
 
     private static void deletar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletar'");
+        try {
+            System.out.println("EXCLUSÃO DE PRODUTO\n");
+            System.out.println("Digite o ID do produto : ");
+            int id = teclado.nextInt();
+            teclado.next();
+            produtoDao.deletar(id);
+            System.out.println("Produto exluido com sucesso...");
+            
+        } catch (Exception e) {
+            System.out.println("Erro ao tentar excluir o produto - " + e.getMessage());
+        }
     }
 
     private static void atualizar() {
@@ -52,8 +62,19 @@ public class Main {
             int id = teclado.nextInt();
             teclado.next();
 
+            Produto produtoAtualizado = produtoDao.buscarPorId(id);
+            System.out.println("Produto: " + produtoAtualizado.getNome());
+            System.out.println("Altere o nome do produto: ");
+            produtoAtualizado.setNome(teclado.nextLine());
+            System.out.println("Preço : " + produtoAtualizado.getPreco());
+            System.out.println("Altere o preço do produto: ");
+            produtoAtualizado.setPreco(teclado.nextDouble());
+
+            produtoDao.atualizar(produtoAtualizado);
+            System.out.println("Produto atualizado com sucesso...");
+
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("Erro ao tentar atualizar o produto - " + e.getMessage());
         }
     }
 

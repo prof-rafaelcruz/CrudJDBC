@@ -18,6 +18,9 @@ public class ProdutoDAO {
             stmt.setDouble(2, p.getPreco());
             stmt.executeUpdate();
 
+            stmt.close();
+            conn.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,6 +34,17 @@ public class ProdutoDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql);) {
             
+            while(rs.next()) {
+                lista.add(new Produto(
+                    rs.getInt("id"), 
+                    rs.getString("nome"), 
+                    rs.getDouble("preco")));
+            }
+            
+            rs.close();
+            stmt.close();
+            conn.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,18 +52,25 @@ public class ProdutoDAO {
         return lista;
     }
 
-    public Produto buscarProdutoPorId(Integer id) {
+    public Produto buscarPorId(Integer id) {
         Produto produto = new Produto();
         String sql = "SELECT * FROM produtos WHERE id = ?";
         try (Connection conn = Conexao.conectar();
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        ResultSet rs = stmt.executeQuery(sql);)
+        PreparedStatement stmt = conn.prepareStatement(sql);)
         {
             stmt.setInt(3, id);
-            stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            produto.setId(rs.getInt("id"));
+            produto.setNome(rs.getString("nome"));
+            produto.setPreco(rs.getDouble("preco"));
+
+            rs.close();
+            stmt.close();
+            conn.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return produto;
     }
@@ -64,6 +85,9 @@ public class ProdutoDAO {
             stmt.setDouble(2, p.getPreco());
             stmt.setInt(3, p.getId());
             stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
            
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,12 +97,14 @@ public class ProdutoDAO {
     public void deletar(Integer id) {
         String sql = "DELETE FROM produtos WHERE id = ?";
 
-
         try (Connection conn = Conexao.conectar();
         PreparedStatement stmt = conn.prepareStatement(sql)){
  
             stmt.setInt(3, id);
             stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
             
         } catch (Exception e) {
             e.printStackTrace();
